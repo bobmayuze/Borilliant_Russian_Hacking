@@ -3,6 +3,7 @@ from __future__ import absolute_import, print_function
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+from time import gmtime, strftime
 
 # Go to http://apps.twitter.com and create an app.
 # The consumer key and secret will be generated for you after
@@ -30,10 +31,12 @@ class StdOutListener(StreamListener):
         print(status)
 
 if __name__ == '__main__':
-    f = open("result.json","w")
+    output_file = strftime("%Y-%m-%d", gmtime())
+    output_file += ".json"
+    f = open(output_file,"w")
     l = StdOutListener()
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
 
     stream = Stream(auth, l)
-    stream.filter(track=['lol'])
+    stream.filter(track=['#RussianHacking'])
